@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Project</title>
+</head>
+<body>
+    <div class="box">
+        <h1>TODO List</h1>
+        <% dayej.forEach(function(task,index) { %>
+            <% if (task.name && task.name.trim() !==""){%>
+            <div class="item">
+                  <form action="/delete" method="post" style="display:inline;">
+                <input type="checkbox" name="checkbox" value="<%= task._id %>" id="task-<%= index %>" onchange="this.form.submit()">
+                <label for="task-<%= index %>"><%= task.name %></label>
+                </form>
+            </div>
+            <% } %>
+        <% }); %>
+    <form class="item" action="/" method="post">
+        <input type="text" name="elel" placeholder="enter item" required>
+        <button type="submit">+</button>
+    </form>
+    </div>
+</body>
+</html>
