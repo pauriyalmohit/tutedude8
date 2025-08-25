@@ -9,10 +9,12 @@ app.set("view engine","ejs");
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://cluster0.wguoail.mongodb.net/ --apiVersion 1 --username <db_username>",{
-useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+mongoose.connect(process.env.MONGO_URI,{
+  useNewUrlParser:true,
+  useUnifiedTopology:true
+})
+.then(()=> console.log("MongoDB Atlas connected"))
+.catch(err=> console.error("connection error:",err));
 
 const trySchema= new mongoose.Schema({
     name:String
@@ -76,4 +78,5 @@ app.post("/", async (req, res) => {
 app.listen(3000,function(){
     console.log("server is running on port 3000");
 });
+
 
