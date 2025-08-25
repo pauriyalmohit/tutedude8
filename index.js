@@ -9,7 +9,10 @@ app.set("view engine","ejs");
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/todo");
+mongoose.connect("mongodb+srv://cluster0.wguoail.mongodb.net/ --apiVersion 1 --username <db_username>",{
+useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 const trySchema= new mongoose.Schema({
     name:String
@@ -73,3 +76,4 @@ app.post("/", async (req, res) => {
 app.listen(3000,function(){
     console.log("server is running on port 3000");
 });
+
