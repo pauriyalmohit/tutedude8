@@ -9,7 +9,7 @@ app.set("view engine","ejs");
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 
-mongoose.connect('mongodb+srv://mohit:12345@cluster0.wguoail.mongodb.net/todo?retryWrites=true&w=majority',{
+mongoose.connect('mongodb+srv://mohitpouriyalmonu7088:ownUzLi1VsCF9O4f@cluster0.vcu2vvv.mongodb.net/',{
   useNewUrlParser:true,
   useUnifiedTopology:true
 })
@@ -78,6 +78,7 @@ app.post("/", async (req, res) => {
 app.listen(3000,function(){
     console.log("server is running on port 3000");
 });
+
 
 
 
