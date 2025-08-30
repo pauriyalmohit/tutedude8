@@ -9,20 +9,35 @@
 <body>
     <div class="box">
         <h1>TODO List</h1>
+
         <% dayej.forEach(function(task,index) { %>
-            <% if (task.name && task.name.trim() !==""){%>
             <div class="item">
-                  <form action="/delete" method="post" style="display:inline;">
-                <input type="checkbox" name="checkbox" value="<%= task._id %>" id="task-<%= index %>" onchange="this.form.submit()">
-                <label for="task-<%= index %>"><%= task.name %></label>
+
+                 <form action="/delete/<%= task._id %>?_method=DELETE" method="POST" style="display:inline;">
+                 <input type="checkbox" id="task-<%= index %>" onchange="this.form.submit()">
+                 <label for="task-<%= index %>"><%= task.name %></label>
                 </form>
-            </div>
-            <% } %>
+                <button class="option1" onclick="editTask('<%= task._id %>', '<%= task.name %>')">EDIT_TASK</button>
+        </div>
         <% }); %>
+
     <form class="item" action="/" method="post">
         <input type="text" name="elel" placeholder="enter item" required>
         <button type="submit">+</button>
     </form>
     </div>
+<script>
+    async function editTask(id,oldName) {
+    const newName = prompt("Edit task:",oldName);
+    if(newName && newName.trim() !==""){
+    await fetch(`/update/${id}?_method=PUT`,{
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body:JSON.stringfy({name: newName})
+    });
+    location.reload();
+    }
+}
+    </script>
 </body>
 </html>
