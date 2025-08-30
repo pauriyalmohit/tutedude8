@@ -5,17 +5,20 @@ const methodOverride = require("method-override");
 
 const app = express();
 
-// Middleware
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
 
-// MongoDB connect
-mongoose.connect("mongodb://localhost:27017/todoDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Schema
+mongoose.connect('mongodb+srv://mohitpouriyalmonu7088:ownUzLi1VsCF9O4f@cluster0.vcu2vvv.mongodb.net/',{
+  useNewUrlParser:true,
+  useUnifiedTopology:true
+})
+.then(()=> console.log("MongoDB Atlas connected"))
+.catch(err=> console.error("connection error:",err));
+
 const taskSchema = new mongoose.Schema({
   name: String
 });
@@ -29,7 +32,6 @@ const defaultTasks = [
   new Task({ name: "Read Documentation" })
 ];
 
-// Routes
 app.get("/", async (req, res) => {
   try {
     const tasks = await Task.find();
@@ -70,7 +72,8 @@ app.put("/update/:id", async (req, res) => {
   res.redirect("/");
 });
 
-// Server
+
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
 });
+
