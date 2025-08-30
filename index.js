@@ -1,76 +1,76 @@
 const express = require("express");
-const mongoose =  require("mongoose");
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 
 const app = express();
 
-app.set("view engine","ejs");
-app.use(express.urlencoded({extended:true}));
-app.use(express.static("public"));
+// Middleware
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("public"));
 app.use(methodOverride("_method"));
 
-mongoose.connect('mongodb+srv://mohitpouriyalmonu7088:ownUzLi1VsCF9O4f@cluster0.vcu2vvv.mongodb.net/',{
-  useNewUrlParser:true,
-  useUnifiedTopology:true
-})
-.then(()=> console.log("MongoDB Atlas connected"))
-.catch(err=> console.error("connection error:",err));
+// MongoDB connect
+mongoose.connect("mongodb://localhost:27017/todoDB", { useNewUrlParser: true, useUnifiedTopology: true });
 
-const taskSchema= new mongoose.Schema({
-    name:String
+// Schema
+const taskSchema = new mongoose.Schema({
+  name: String
 });
 
-const Task = mongoose.model("Task",trySchema);
- 
+const Task = mongoose.model("Task", taskSchema);
+
+// Default tasks
 const defaultTasks = [
-    new Item({name: "create todo video"}),
-    new Item({name: " learn DSA"}),
-    new Item({name: " learn web3"}),
+  new Task({ name: "Learn DSA" }),
+  new Task({ name: "Complete Project" }),
+  new Task({ name: "Read Documentation" })
 ];
 
-app.get("/", async (req , res)=> {
-    try {
-        const tasks = await Task.find();
+// Routes
+app.get("/", async (req, res) => {
+  try {
+    const tasks = await Task.find();
 
-      if(tasks.length ===0) {
-        await Task.insertMany(defaultTasks);
-        return res.redirect("/");
-      }
-       res.render("list",{dayej:tasks});
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Error loading tasks");
+    // Insert default tasks only if DB is empty
+    if (tasks.length === 0) {
+      await Task.insertMany(defaultTasks);
+      return res.redirect("/");
     }
+
+    res.render("list", { dayej: tasks });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error loading tasks");
+  }
 });
 
-app.post("/",async (req,res) => {
-   const itemName  = req.body.elel;
-   const newTask = new Task({name: itemName});
-   await newTask.save();
+// Add new task
+app.post("/", async (req, res) => {
+  const itemName = req.body.elel;
+  const newTask = new Task({ name: itemName });
+  await newTask.save();
+  res.redirect("/");
 });
 
-//delete 
-app.delete("/delete/:id",async (req,res) =>{
-   const id = req.params.id;
+// Delete task
+app.delete("/delete/:id", async (req, res) => {
+  const id = req.params.id;
   await Task.findByIdAndDelete(id);
   res.redirect("/");
 });
 
-//update
-app.put("/update/:id",async (req,res) =>{
+// Update task
+app.put("/update/:id", async (req, res) => {
   const id = req.params.id;
   const newName = req.body.name;
-  await task.findByIdAndUpdate(id,{name:  newName});
+  await Task.findByIdAndUpdate(id, { name: newName });
   res.redirect("/");
 });
- 
-app.listen(3000,function(){
-    console.log("server is running on port 3000");
+
+// Server
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
 });
-
-
-
-
-
