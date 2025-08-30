@@ -1,13 +1,15 @@
 const express = require("express");
 const mongoose =  require("mongoose");
 const bodyParser = require("body-parser");
-const path = require("path");
-var app = express();
+const methodOverride = require("method-override");
 
-app.set("views", path.join(__dirname, "views"));
+const app = express();
+
 app.set("view engine","ejs");
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
+app.use(express.json());
+app.use(methodOverride("_method"));
 
 mongoose.connect('mongodb+srv://mohitpouriyalmonu7088:ownUzLi1VsCF9O4f@cluster0.vcu2vvv.mongodb.net/',{
   useNewUrlParser:true,
@@ -16,11 +18,11 @@ mongoose.connect('mongodb+srv://mohitpouriyalmonu7088:ownUzLi1VsCF9O4f@cluster0.
 .then(()=> console.log("MongoDB Atlas connected"))
 .catch(err=> console.error("connection error:",err));
 
-const trySchema= new mongoose.Schema({
+const taskSchema= new mongoose.Schema({
     name:String
 });
 
-const Item = mongoose.model("task",trySchema);
+const Task = mongoose.model("Task",trySchema);
  
 const defaultTasks = [
     new Item({name: "create todo video"}),
@@ -30,54 +32,44 @@ const defaultTasks = [
 
 app.get("/", async (req , res)=> {
     try {
-        const foundItems = await Item.find({});
-        for (let def of defaultTasks) {
-            const exists = await Item.findOne({ name: def.name });
-            if (!exists) {
-                await def.save();
-            }
-        }
-        const updatedItems = await Item.find({});
-        res.render("list",{ dayej: updatedItems });
-    } catch(err) {
-        console.log(err);
-    }
-});
+        const tasks = await Task.find();
 
-
-app.post("/", async (req, res) => {
-  try {
-    const newTaskName = req.body.elel?.trim();
-
-    if (newTaskName) {
-      const existing = await Item.findOne({ name: newTaskName });
-      if (!existing) {
-        const newTask = new Item({ name: newTaskName });
-        await newTask.save();
+      if(tasks.length ===0) {
+        await Task.insertMany(defaultTasks);
+        return res.redirect("/");
       }
+       res.render("list",{dayej:tasks});
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error loading tasks");
     }
-
-    res.redirect("/");
-  } catch (err) {
-    console.log(err);
-    res.redirect("/");
-  }
 });
- app.post("/delete",async(req,res) =>{
-  try{
-    const checckedId = req.body.checkbox;
-    await Item.findByIdAndDelete(checckedId);
-    console.log("Task Deleted:", checckedId);
-    res.redirect("/");
-  } catch(errr) {
-    console.log(err);
-    res.redirect("/");
-  }
- });
+
+app.post("/",async (req,res) => {
+   const itemName  = req.body.elel;
+   const newTask = new Task({name: itemName});
+   await newTask.save();
+});
+
+//delete 
+app.delete("/delete/:id",async (req,res) =>{
+   const id = req.params.id;
+  await Task.findByIdAndDelete(id);
+  res.redirect("/");
+});
+
+//update
+app.put("/update/:id",async (req,res) =>{
+  const id = req.params.id;
+  const newName = req.body.name;
+  await task.findByIdAndUpdate(id,{name:  newName});
+  res.redirect("/");
+});
  
 app.listen(3000,function(){
     console.log("server is running on port 3000");
 });
+
 
 
 
