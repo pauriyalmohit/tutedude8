@@ -19,7 +19,7 @@ mongoose.connect('mongodb+srv://mohitpouriyalmonu7088:ownUzLi1VsCF9O4f@cluster0.
 .catch(err=> console.error("connection error:",err));
 
 const taskSchema = new mongoose.Schema({
-  name: string
+  name: String
 });
 
 const Task = mongoose.model("Task",taskSchema);
@@ -69,3 +69,4 @@ app.put("/update/:id",async(req,res)=>{
 app.listen(3000,()=>{
   console.log("server running on http://localhost:3000");
 });
+
