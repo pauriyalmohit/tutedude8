@@ -49,7 +49,7 @@ app.get("/",async(req,res)=>{
 app.post("/",async (req,res)=>{
   const itemName = req.body.elel;
   const newTask = new Task({name: itemName});
-  await newTask.save("/");
+  await newTask.save();
   res.redirect("/");
 });
 
@@ -69,4 +69,5 @@ app.put("/update/:id",async(req,res)=>{
 app.listen(3000,()=>{
   console.log("server running on http://localhost:3000");
 });
+
 
