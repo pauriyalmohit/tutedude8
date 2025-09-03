@@ -1,69 +1,61 @@
- body {
-  background: linear-gradient(to right, #a18cd1, #fbc2eb);  
-  font-family: Arial, sans-serif;
+body{
+ background:linear-gradient(to right,#a18cd1,#fbc2eb);
+ font-family: Arial, sans-serif;
 }
-
 .box {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+ max-width:500px;
+ margin: 50px auto;
+ padding: 20px;
+ border-radius:20px;
+ background:#fff;
+ box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
-
 h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 28px;
+ text-align: center;
+ margin-bottom:20px;
+ font-size: 28px;
 }
-
-.item {
-  display: flex;
-  align-items: left;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+.item{
+ display:flex;
+ align-items: left;
+ padding:10px 0;
+ border-bottom: 1px solid #eee;
 }
 .item input[type="checkbox"] {
-  transform: scale(1.2);
+ transform:scale(1.2);
 }
-
 form {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
+ display:flex;
+ justify-content:space-between;
+ margin-top:15px;
 }
-
-form input[type="text"] {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
+form input[type="text"]{
+ flex:1;
+ padding:8px 12px;
+ border:1px solid #ddd;
+ border-radius:10px;
+ font-size:16px;
 }
-
 form button {
-  margin-left: 10px;
-  padding: 8px 15px;
-  font-size: 20px;
-  background: linear-gradient(to right, #a18cd1, #fbc2eb);
-  color: white;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: 0.3s;
+ margin-left:10px;
+ padding:8px 15px;
+ font-size:20px;
+ background:linear-gradient(to right, #a18cd1, #fbc2eb);
+ color:white;
+ border:none;
+ border-radius:15px;
+ cursor:pointer;
+ transition:0.3s;
 }
-
 form button:hover {
-background: linear-gradient(to right, #a18cd1, #fbc2eb);
+ background:linear-gradient(to right, #a18cd1, #fbc2eb);
 }
-
 input[type="checkbox"]:checked+label{
-  text-decoration:line-through;
-  color: black;
+ text-decoration:line-through;
+ color:black;
 }
 .option1{
-  margin-left: 20px;
-  border-radius: 15px;
-  background: linear-gradient(to right, #a18cd1, #fbc2eb);
+ margin-left:20px;
+ border-radius:15px;
+ background:linear-gradient(to right, #a18cd1, #fbc2eb);
 }
